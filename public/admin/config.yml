@@ -1,0 +1,77 @@
+# Decap CMS configuration
+# This panel lives at azimbayov.com/admin — the owner logs in with GitHub
+# and edits content without touching code.
+#
+# Backend: GitHub via Netlify Identity + Git Gateway (set up on first visit).
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Where uploaded media goes (product cover images, etc.).
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# UI language for the panel itself.
+locale: "en"
+
+collections:
+  # --- Products: the 6 (and future) Gumroad listings ---
+  - name: "products"
+    label: "Products (Gumroad)"
+    label_singular: "Product"
+    folder: "src/content/templates"
+    format: "json"
+    extension: "json"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "slug"
+    summary: "{{title_en}}  ·  {{gumroad_link}}"
+    fields:
+      - { name: "slug",         label: "Slug (URL id — no spaces)", widget: "string" }
+      - { name: "gumroad_link", label: "Gumroad product URL",       widget: "string" }
+      - { name: "type",         label: "Type",                      widget: "select",  options: ["template", "procedure", "workbook"] }
+      - { name: "format_tag",   label: "Format tag (shown on card)", widget: "string", default: "WORD + PDF" }
+      - { name: "categories",   label: "Categories",                widget: "select",
+          multiple: true,
+          options: ["lean","ci","kaizen","oee","5s","rca","smed","pokayoke","pdca"] }
+      - { name: "title_az",     label: "Title (Azərbaycanca)", widget: "string" }
+      - { name: "title_en",     label: "Title (English)",       widget: "string" }
+      - { name: "title_tr",     label: "Title (Türkçe)",         widget: "string" }
+      - { name: "desc_az",      label: "Short description (AZ)", widget: "text" }
+      - { name: "desc_en",      label: "Short description (EN)", widget: "text" }
+      - { name: "desc_tr",      label: "Short description (TR)", widget: "text" }
+
+  # --- Site copy: files with the on-page text so the owner can tweak it later ---
+  - name: "site_copy"
+    label: "Site copy"
+    files:
+      - file: "src/content/site/home.json"
+        label: "Home page"
+        name: "home"
+        fields:
+          - { name: "az_h1_a",   label: "AZ headline part A",  widget: "string" }
+          - { name: "az_h1_b",   label: "AZ headline part B (teal)",  widget: "string" }
+          - { name: "az_lead",   label: "AZ intro paragraph",  widget: "text" }
+          - { name: "en_h1_a",   label: "EN headline part A",  widget: "string" }
+          - { name: "en_h1_b",   label: "EN headline part B (teal)",  widget: "string" }
+          - { name: "en_lead",   label: "EN intro paragraph",  widget: "text" }
+          - { name: "tr_h1_a",   label: "TR headline part A",  widget: "string" }
+          - { name: "tr_h1_b",   label: "TR headline part B (teal)",  widget: "string" }
+          - { name: "tr_lead",   label: "TR intro paragraph",  widget: "text" }
+
+      - file: "src/content/site/about.json"
+        label: "About page"
+        name: "about"
+        fields:
+          - { name: "az_intro",  label: "AZ intro paragraph", widget: "text" }
+          - { name: "en_intro",  label: "EN intro paragraph", widget: "text" }
+          - { name: "tr_intro",  label: "TR intro paragraph", widget: "text" }
+
+      - file: "src/content/site/contact.json"
+        label: "Contact settings"
+        name: "contact"
+        fields:
+          - { name: "calendly_url", label: "Calendly link (with Zoom connected)", widget: "string" }
+          - { name: "linkedin_url", label: "LinkedIn profile URL",                 widget: "string", required: false }
+          - { name: "pinterest_url",label: "Pinterest profile URL",                widget: "string", required: false }

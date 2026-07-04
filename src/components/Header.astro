@@ -1,0 +1,54 @@
+---
+// Header.astro — site header. Receives the current language and the active page slug.
+import { t } from '../i18n/ui.js';
+
+export interface Props {
+  lang: 'az' | 'en' | 'tr';
+  active?: 'home' | 'templates' | 'consulting' | 'about' | 'contact';
+}
+const { lang, active } = Astro.props;
+
+// Build a path for a given key in the current language.
+const path = (key: string, l = lang) => {
+  const base = `/${l}`;
+  if (key === 'home')       return `${base}/`;
+  if (key === 'templates')  return `${base}/templates/`;
+  if (key === 'consulting') return `${base}/consulting/`;
+  if (key === 'about')      return `${base}/about/`;
+  if (key === 'contact')    return `${base}/contact/`;
+  return base + '/';
+};
+
+// For the language switcher we keep the visitor on the same page they're on.
+// Derive the page key from `active`; default to home.
+const currentKey = active ?? 'home';
+---
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href={path('home')}>
+      <span class="logomark" aria-hidden="true"></span>
+      <span>
+        Azimbayov
+        <small>{t(lang, 'nav.logo_sub')}</small>
+      </span>
+    </a>
+
+    <nav class="navlinks" aria-label="Primary">
+      <a href={path('home')}       class={active === 'home' ? 'active' : ''}>{t(lang, 'nav.home')}</a>
+      <a href={path('templates')}  class={active === 'templates' ? 'active' : ''}>{t(lang, 'nav.templates')}</a>
+      <a href={path('consulting')} class={active === 'consulting' ? 'active' : ''}>{t(lang, 'nav.consulting')}</a>
+      <a href={path('about')}      class={active === 'about' ? 'active' : ''}>{t(lang, 'nav.about')}</a>
+      <a href={path('contact')}    class={active === 'contact' ? 'active' : ''}>{t(lang, 'nav.contact')}</a>
+    </nav>
+
+    <div class="navright">
+      <div class="langsw" role="group" aria-label="Language">
+        <a href={path(currentKey, 'en')} class={lang === 'en' ? 'on' : ''} hreflang="en">EN</a>
+        <a href={path(currentKey, 'tr')} class={lang === 'tr' ? 'on' : ''} hreflang="tr">TR</a>
+        <a href={path(currentKey, 'az')} class={lang === 'az' ? 'on' : ''} hreflang="az">AZ</a>
+      </div>
+      <a class="btn btn-primary" href={path('contact')}>{t(lang, 'nav.book')}</a>
+    </div>
+  </div>
+</header>

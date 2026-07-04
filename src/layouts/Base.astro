@@ -1,0 +1,67 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+export interface Props {
+  lang: 'az' | 'en' | 'tr';
+  active?: 'home' | 'templates' | 'consulting' | 'about' | 'contact';
+  title: string;
+  description: string;
+  pageKey?: string; // for hreflang alternates (home | templates | consulting | about | contact)
+}
+
+const { lang, active, title, description, pageKey = 'home' } = Astro.props;
+
+// Build hreflang alternates so each page has proper cross-language SEO signals.
+const paths: Record<string, string> = {
+  home: '/', templates: '/templates/', consulting: '/consulting/',
+  about: '/about/', contact: '/contact/',
+};
+const currentPath = paths[pageKey] ?? '/';
+const site = 'https://azimbayov.com';
+const alternates = (['az','en','tr'] as const).map(l => ({ lang: l, href: `${site}/${l}${currentPath}` }));
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="azimbayov.com" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={lang === 'az' ? 'az_AZ' : lang === 'tr' ? 'tr_TR' : 'en_US'} />
+
+    <!-- Canonical + alternates -->
+    <link rel="canonical" href={`${site}/${lang}${currentPath}`} />
+    {alternates.map(a => (
+      <link rel="alternate" hreflang={a.lang} href={a.href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${site}/en${currentPath}`} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <Header lang={lang} active={active} />
+    <main>
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

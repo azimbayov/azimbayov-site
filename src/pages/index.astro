@@ -1,0 +1,34 @@
+---
+// Root page — Netlify redirects the root URL to /az /en or /tr based on
+// the visitor's Accept-Language header (see netlify.toml). This static page
+// exists as a safety net if the redirects don't fire (e.g. local preview).
+---
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <title>azimbayov.com</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta http-equiv="refresh" content="0;url=/az/" />
+  <script>
+    // Detect the visitor's language and redirect. Falls back to /az/.
+    (function () {
+      var langs = (navigator.languages || [navigator.language || 'az']).map(function (l) {
+        return (l || '').toLowerCase().split('-')[0];
+      });
+      var target = '/az/';
+      for (var i = 0; i < langs.length; i++) {
+        if (langs[i] === 'en') { target = '/en/'; break; }
+        if (langs[i] === 'tr') { target = '/tr/'; break; }
+        if (langs[i] === 'az') { target = '/az/'; break; }
+      }
+      window.location.replace(target);
+    })();
+  </script>
+</head>
+<body>
+  <p style="font-family:sans-serif;color:#5B6B7B;padding:24px;">
+    Redirecting… <a href="/az/">Ana səhifə</a> · <a href="/en/">Home</a> · <a href="/tr/">Ana Sayfa</a>
+  </p>
+</body>
+</html>

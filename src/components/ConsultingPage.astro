@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui.js';
+
+export interface Props { lang: 'az' | 'en' | 'tr'; }
+const { lang } = Astro.props;
+
+const seoTitle = `${t(lang, 'con.h1')} — azimbayov.com`;
+const seoDesc = t(lang, 'con.lead').slice(0, 160);
+const contactPath = `/${lang}/contact/`;
+---
+
+<Base lang={lang} active="consulting" title={seoTitle} description={seoDesc} pageKey="consulting">
+  <section class="pagehero">
+    <div class="pagehero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="eyebrow">{t(lang, 'con.eyebrow')}</span>
+      <h1>{t(lang, 'con.h1')}</h1>
+      <p>{t(lang, 'con.lead')}</p>
+    </div>
+  </section>
+
+  <section class="block plain">
+    <div class="wrap">
+      <div class="grid3">
+        <div class="svc">
+          <div class="num">01</div>
+          <h3>{t(lang, 'con.s1_h')}</h3>
+          <span class="tag">{t(lang, 'con.s1_tag')}</span>
+          <p class="desc">{t(lang, 'con.s1_desc')}</p>
+          <ul>
+            <li>{t(lang, 'con.s1_b1')}</li>
+            <li>{t(lang, 'con.s1_b2')}</li>
+            <li>{t(lang, 'con.s1_b3')}</li>
+          </ul>
+          <a class="btn btn-teal cta" href={`${contactPath}?service=advisory`}>{t(lang, 'con.cta_contact')}</a>
+        </div>
+
+        <div class="svc">
+          <div class="num">02</div>
+          <h3>{t(lang, 'con.s2_h')}</h3>
+          <span class="tag">{t(lang, 'con.s2_tag')}</span>
+          <p class="desc">{t(lang, 'con.s2_desc')}</p>
+          <ul>
+            <li>{t(lang, 'con.s2_b1')}</li>
+            <li>{t(lang, 'con.s2_b2')}</li>
+            <li>{t(lang, 'con.s2_b3')}</li>
+          </ul>
+          <a class="btn btn-teal cta" href={`${contactPath}?service=project`}>{t(lang, 'con.cta_contact')}</a>
+        </div>
+
+        <div class="svc">
+          <div class="num">03</div>
+          <h3>{t(lang, 'con.s3_h')}</h3>
+          <span class="tag">{t(lang, 'con.s3_tag')}</span>
+          <p class="desc">{t(lang, 'con.s3_desc')}</p>
+          <ul>
+            <li>{t(lang, 'con.s3_b1')}</li>
+            <li>{t(lang, 'con.s3_b2')}</li>
+            <li>{t(lang, 'con.s3_b3')}</li>
+          </ul>
+          <a class="btn btn-teal cta" href={`${contactPath}?service=training`}>{t(lang, 'con.cta_contact')}</a>
+        </div>
+      </div>
+
+      <div class="price-note">
+        <b>{t(lang, 'con.pricing_note_h')}</b>&nbsp;&nbsp;{t(lang, 'con.pricing_note_p')}
+      </div>
+    </div>
+  </section>
+</Base>

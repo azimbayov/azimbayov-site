@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>https://azimbayov.com/az/</loc>
+    <xhtml:link rel="alternate" hreflang="az" href="https://azimbayov.com/az/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://azimbayov.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://azimbayov.com/tr/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://azimbayov.com/en/"/>
+  </url>
+  <url><loc>https://azimbayov.com/en/</loc></url>
+  <url><loc>https://azimbayov.com/tr/</loc></url>
+
+  <url><loc>https://azimbayov.com/az/templates/</loc></url>
+  <url><loc>https://azimbayov.com/en/templates/</loc></url>
+  <url><loc>https://azimbayov.com/tr/templates/</loc></url>
+
+  <url><loc>https://azimbayov.com/az/consulting/</loc></url>
+  <url><loc>https://azimbayov.com/en/consulting/</loc></url>
+  <url><loc>https://azimbayov.com/tr/consulting/</loc></url>
+
+  <url><loc>https://azimbayov.com/az/about/</loc></url>
+  <url><loc>https://azimbayov.com/en/about/</loc></url>
+  <url><loc>https://azimbayov.com/tr/about/</loc></url>
+
+  <url><loc>https://azimbayov.com/az/contact/</loc></url>
+  <url><loc>https://azimbayov.com/en/contact/</loc></url>
+  <url><loc>https://azimbayov.com/tr/contact/</loc></url>
+</urlset>

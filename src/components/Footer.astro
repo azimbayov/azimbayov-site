@@ -1,0 +1,35 @@
+---
+import { t } from '../i18n/ui.js';
+
+export interface Props { lang: 'az' | 'en' | 'tr'; }
+const { lang } = Astro.props;
+const base = `/${lang}`;
+---
+
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="fbrand">Azimbayov</div>
+        <p style="color:#9fb0c0;font-size:13.5px;max-width:280px;">{t(lang, 'foot.tagline')}</p>
+      </div>
+      <div>
+        <h5>{t(lang, 'foot.site')}</h5>
+        <a href={`${base}/templates/`}>{t(lang, 'nav.templates')}</a>
+        <a href={`${base}/consulting/`}>{t(lang, 'nav.consulting')}</a>
+        <a href={`${base}/about/`}>{t(lang, 'nav.about')}</a>
+        <a href={`${base}/contact/`}>{t(lang, 'nav.contact')}</a>
+      </div>
+      <div>
+        <h5>{t(lang, 'foot.connect')}</h5>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.pinterest.com/" target="_blank" rel="noopener">Pinterest</a>
+        <a href={`${base}/contact/`}>{t(lang, 'nav.book')}</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>{t(lang, 'foot.rights')}</span>
+      <span style="font-family:'JetBrains Mono',monospace;">EN · TR · AZ</span>
+    </div>
+  </div>
+</footer>

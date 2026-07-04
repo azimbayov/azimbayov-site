@@ -1,0 +1,97 @@
+---
+// HomePage.astro — the whole homepage content, driven by the current language.
+// One template used by /az, /en, /tr — no duplicated markup.
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui.js';
+
+export interface Props { lang: 'az' | 'en' | 'tr'; }
+const { lang } = Astro.props;
+
+const base = `/${lang}`;
+const seoTitle = `azimbayov.com — ${t(lang, 'home.eyebrow')}`;
+const seoDesc = t(lang, 'home.lead').slice(0, 160);
+---
+
+<Base lang={lang} active="home" title={seoTitle} description={seoDesc} pageKey="home">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <div>
+        <span class="eyebrow">{t(lang, 'home.eyebrow')}</span>
+        <h1>{t(lang, 'home.h1_a')} <span style="color:var(--teal);">{t(lang, 'home.h1_b')}</span></h1>
+        <p class="lead">{t(lang, 'home.lead')}</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href={`${base}/templates/`}>{t(lang, 'home.cta_templates')}</a>
+          <a class="btn btn-ghost" href={`${base}/consulting/`}>{t(lang, 'home.cta_work')}</a>
+        </div>
+        <div class="metrics">
+          <div class="metric"><b>+4</b><small>{t(lang, 'home.metric1')}</small></div>
+          <div class="metric"><b>−38%</b><small>{t(lang, 'home.metric2')}</small></div>
+          <div class="metric"><b>326</b><small>{t(lang, 'home.metric3')}</small></div>
+        </div>
+        <div class="metric-cap">{t(lang, 'home.metric_caption')}</div>
+      </div>
+      <div class="portrait">
+        <div class="frame">
+          <div class="ph">
+            <img src="/images/portrait.jpg" alt={t(lang, 'home.portrait_role')} loading="eager" />
+          </div>
+        </div>
+        <div class="tag">
+          <b>{lang === 'az' ? 'Ərtoğrul Əzimbəyov' : lang === 'tr' ? 'Ertuğrul Azimbayov' : 'Artoghrul Azimbayov'}</b>
+          <small>{t(lang, 'home.portrait_role')}</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT I WORK WITH -->
+  <section class="block alt">
+    <div class="wrap">
+      <span class="eyebrow">{t(lang, 'home.work_eyebrow')}</span>
+      <div class="strip">
+        <span class="chip">5S</span>
+        <span class="chip">Kaizen</span>
+        <span class="chip">OEE</span>
+        <span class="chip">RCA</span>
+        <span class="chip">SMED</span>
+        <span class="chip">Poka-Yoke</span>
+        <span class="chip">PDCA</span>
+        <span class="chip">Gemba Walk</span>
+        <span class="chip">API 5L · EN 10219</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO WAYS -->
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">{t(lang, 'home.ways_eyebrow')}</span>
+        <h2>{t(lang, 'home.ways_h')}</h2>
+        <p>{t(lang, 'home.ways_sub')}</p>
+      </div>
+      <div class="grid3">
+        <a class="card" href={`${base}/templates/`}>
+          <span class="num">01</span>
+          <h3>{t(lang, 'home.c1_h')}</h3>
+          <p>{t(lang, 'home.c1_p')}</p>
+          <span class="arrow">{t(lang, 'home.c1_a')}</span>
+        </a>
+        <a class="card" href={`${base}/consulting/`}>
+          <span class="num">02</span>
+          <h3>{t(lang, 'home.c2_h')}</h3>
+          <p>{t(lang, 'home.c2_p')}</p>
+          <span class="arrow">{t(lang, 'home.c2_a')}</span>
+        </a>
+        <a class="card" href={`${base}/about/`}>
+          <span class="num">03</span>
+          <h3>{t(lang, 'home.c3_h')}</h3>
+          <p>{t(lang, 'home.c3_p')}</p>
+          <span class="arrow">{t(lang, 'home.c3_a')}</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

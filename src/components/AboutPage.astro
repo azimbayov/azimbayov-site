@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui.js';
+
+export interface Props { lang: 'az' | 'en' | 'tr'; }
+const { lang } = Astro.props;
+
+const seoTitle = `${t(lang, 'about.h1')} — azimbayov.com`;
+const seoDesc = t(lang, 'about.intro').slice(0, 160);
+---
+
+<Base lang={lang} active="about" title={seoTitle} description={seoDesc} pageKey="about">
+  <section class="pagehero">
+    <div class="pagehero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="eyebrow">{t(lang, 'about.eyebrow')}</span>
+      <h1>{t(lang, 'about.h1')}</h1>
+    </div>
+  </section>
+
+  <section class="block plain">
+    <div class="wrap about-grid">
+      <div>
+        <div class="portrait">
+          <div class="frame">
+            <div class="ph">
+              <img src="/images/portrait.jpg" alt="" loading="lazy" />
+            </div>
+          </div>
+        </div>
+        <span class="eyebrow" style="margin-top:22px;display:inline-flex;">{t(lang, 'about.certs_eyebrow')}</span>
+        <div class="certs">
+          <span class="chip">Lean Thinking — LSSC</span>
+          <span class="chip">Agile PM — Google</span>
+          <span class="chip">Six Sigma — Univ. of Illinois</span>
+          <span class="chip">Project Initiation & Planning — Univ. of Illinois</span>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:17px;margin-bottom:26px;color:var(--ink);">{t(lang, 'about.intro')}</p>
+        <div class="timeline">
+          <div class="tl">
+            <small>{t(lang, 'about.tl1_tag')}</small>
+            <b>{t(lang, 'about.tl1_h')}</b>
+            <p>{t(lang, 'about.tl1_p')}</p>
+          </div>
+          <div class="tl">
+            <small>{t(lang, 'about.tl2_tag')}</small>
+            <b>{t(lang, 'about.tl2_h')}</b>
+            <p>{t(lang, 'about.tl2_p')}</p>
+          </div>
+          <div class="tl">
+            <small>{t(lang, 'about.tl3_tag')}</small>
+            <b>{t(lang, 'about.tl3_h')}</b>
+            <p>{t(lang, 'about.tl3_p')}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

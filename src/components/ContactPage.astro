@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui.js';
+
+export interface Props { lang: 'az' | 'en' | 'tr'; }
+const { lang } = Astro.props;
+
+const seoTitle = `${t(lang, 'ct.h1')} — azimbayov.com`;
+const seoDesc = t(lang, 'ct.lead').slice(0, 160);
+---
+
+<Base lang={lang} active="contact" title={seoTitle} description={seoDesc} pageKey="contact">
+  <section class="pagehero">
+    <div class="pagehero-grid" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="eyebrow">{t(lang, 'ct.eyebrow')}</span>
+      <h1>{t(lang, 'ct.h1')}</h1>
+      <p>{t(lang, 'ct.lead')}</p>
+    </div>
+  </section>
+
+  <section class="block plain">
+    <div class="wrap">
+      <div class="preselect-banner" id="banner">
+        <b>{t(lang, 'ct.banner_prefix')}</b>&nbsp;<span id="banner-svc"></span>
+      </div>
+      <div class="form-success" id="success">
+        {t(lang, 'ct.f_success')}
+      </div>
+
+      <div class="contact-grid">
+        <!--
+          Netlify Forms: adding `data-netlify="true"` + a hidden `form-name`
+          is enough for Netlify to auto-detect and process the form.
+          `netlify-honeypot` is a simple spam trap: bots fill it, real users don't.
+        -->
+        <form
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          action={`/${lang}/contact/?sent=1`}
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <input type="hidden" name="lang" value={lang} />
+          <p style="display:none;">
+            <label>Do not fill: <input name="bot-field" /></label>
+          </p>
+
+          <div class="field">
+            <label for="f-name">{t(lang, 'ct.f_name')}</label>
+            <input id="f-name" name="name" required autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <label for="f-email">{t(lang, 'ct.f_email')}</label>
+            <input id="f-email" name="email" type="email" required autocomplete="email" />
+          </div>
+
+          <div class="field">
+            <label for="f-need">{t(lang, 'ct.f_need')}</label>
+            <select id="f-need" name="service">
+              <option value="advisory">{t(lang, 'ct.opt_advisory')}</option>
+              <option value="project">{t(lang, 'ct.opt_project')}</option>
+              <option value="training">{t(lang, 'ct.opt_training')}</option>
+              <option value="templates">{t(lang, 'ct.opt_templates')}</option>
+              <option value="other">{t(lang, 'ct.opt_other')}</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="f-msg">{t(lang, 'ct.f_msg')}</label>
+            <textarea id="f-msg" name="message" rows="5" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">{t(lang, 'ct.f_send')}</button>
+        </form>
+
+        <div class="cal-embed">
+          <!--
+            Calendly inline widget. The `data-url` is a placeholder — the owner
+            replaces it with their own Calendly link on setup. Zoom is connected
+            inside Calendly, not here.
+            Reference: https://help.calendly.com/hc/en-us/articles/223147027
+          -->
+          <div
+            class="calendly-inline-widget"
+            data-url="https://calendly.com/YOUR-CALENDLY/consulting-call"
+            style="min-width:320px;height:100%;min-height:480px;"
+          ></div>
+          <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        </div>
+      </div>
+
+      <div class="form-note">
+        {lang === 'az' ? '↑ Bu forma Netlify Forms üzərindən birbaşa mənim email-imə göndərilir.'
+          : lang === 'tr' ? '↑ Bu form Netlify Forms üzerinden doğrudan e-postama iletilir.'
+          : '↑ This form sends directly to my email via Netlify Forms.'}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Pre-select the service in the dropdown based on ?service=… in the URL,
+    // and show the confirmation banner.
+    const params = new URLSearchParams(window.location.search);
+    const svc = params.get('service');
+    if (svc) {
+      const sel = document.getElementById('f-need');
+      if (sel && [...sel.options].some(o => o.value === svc)) {
+        sel.value = svc;
+        const label = sel.options[sel.selectedIndex].textContent;
+        const banner = document.getElementById('banner');
+        const bLabel = document.getElementById('banner-svc');
+        if (banner && bLabel) { bLabel.textContent = label; banner.classList.add('show'); }
+        setTimeout(() => document.getElementById('f-name')?.focus(), 200);
+      }
+    }
+    // Show success message after Netlify redirects back with ?sent=1
+    if (params.get('sent') === '1') {
+      const s = document.getElementById('success');
+      if (s) { s.classList.add('show'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    }
+    // Keep banner in sync if user changes the select manually
+    document.getElementById('f-need')?.addEventListener('change', (e) => {
+      const bLabel = document.getElementById('banner-svc');
+      if (bLabel) bLabel.textContent = e.target.options[e.target.selectedIndex].textContent;
+    });
+  </script>
+</Base>
