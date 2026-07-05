@@ -16,6 +16,7 @@ export const ui = {
     'nav.consulting': 'Məsləhət',
     'nav.about': 'Haqqımda',
     'nav.contact': 'Əlaqə',
+    'nav.blog': 'Blog',
     'nav.book': 'Görüş təyin et',
     'nav.logo_sub': 'Lean · CI · Kaizen',
 
@@ -35,6 +36,12 @@ export const ui = {
     'home.ways_eyebrow': 'İki iş yolu',
     'home.ways_h': 'Şablon al, ya da sistemi mənimlə birlikdə qur.',
     'home.ways_sub': 'Bu gün sınanmış bir sənədlə başla, ya da dəyişikliyi başdan-sona mənimlə apar.',
+    // homepage blog block
+    'home.blog_eyebrow': 'Blog',
+    'home.blog_h': 'Zavod sahəsindən qeydlər.',
+    'home.blog_sub': 'Praktiki Lean və davamlı təkmilləşdirmə qeydləri — nə işlədi, nə uğursuz oldu.',
+    'home.blog_all': 'Bütün paylaşımlar →',
+    'home.blog_read': 'Oxu →',
     'home.c1_h': 'Şablon kitabxanası',
     'home.c1_p': '5S auditləri, OEE izləmə, RCA və daha çoxu üçün Excel və PowerPoint alətləri. Yüklə, redaktə et, elə həmin gün istifadə et.',
     'home.c1_a': 'Mağazaya bax →',
@@ -137,6 +144,7 @@ export const ui = {
     'nav.consulting': 'Consulting',
     'nav.about': 'About',
     'nav.contact': 'Contact',
+    'nav.blog': 'Blog',
     'nav.book': 'Book a call',
     'nav.logo_sub': 'Lean · CI · Kaizen',
 
@@ -155,6 +163,12 @@ export const ui = {
     'home.ways_eyebrow': 'Two ways to work',
     'home.ways_h': 'Buy a template, or build the system with me.',
     'home.ways_sub': 'Start with a proven document today, or bring me in to run the change from baseline to result.',
+    // homepage blog block
+    'home.blog_eyebrow': 'Blog',
+    'home.blog_h': 'Notes from the factory floor.',
+    'home.blog_sub': 'Practical Lean and CI notes — what worked, what failed, what you can steal.',
+    'home.blog_all': 'All posts →',
+    'home.blog_read': 'Read →',
     'home.c1_h': 'Template library',
     'home.c1_p': 'Excel and PowerPoint tools for 5S audits, OEE tracking, RCA and more. Download, edit, use the same day.',
     'home.c1_a': 'Browse shop →',
@@ -252,6 +266,7 @@ export const ui = {
     'nav.consulting': 'Danışmanlık',
     'nav.about': 'Hakkımda',
     'nav.contact': 'İletişim',
+    'nav.blog': 'Blog',
     'nav.book': 'Görüşme ayarla',
     'nav.logo_sub': 'Lean · CI · Kaizen',
 
@@ -270,6 +285,12 @@ export const ui = {
     'home.ways_eyebrow': 'İki çalışma yolu',
     'home.ways_h': 'Bir şablon satın al ya da sistemi benimle birlikte kur.',
     'home.ways_sub': 'Bugün kanıtlanmış bir dokümanla başla ya da değişimi baştan sona benimle yürüt.',
+    // homepage blog block
+    'home.blog_eyebrow': 'Blog',
+    'home.blog_h': 'Fabrika sahasından notlar.',
+    'home.blog_sub': 'Pratik Lean ve sürekli iyileştirme notları — neyin işe yaradığı, neyin yaramadığı.',
+    'home.blog_all': 'Tüm yazılar →',
+    'home.blog_read': 'Oku →',
     'home.c1_h': 'Şablon kütüphanesi',
     'home.c1_p': '5S denetimleri, OEE takibi, RCA ve daha fazlası için Excel ve PowerPoint araçları. İndir, düzenle, aynı gün kullan.',
     'home.c1_a': 'Mağazaya git →',
