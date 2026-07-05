@@ -17,6 +17,37 @@ public_folder: "/images/uploads"
 locale: "en"
 
 collections:
+  # --- Blog posts: Markdown files under src/content/blog/en/ ---
+  - name: "blog"
+    label: "Blog posts"
+    label_singular: "Post"
+    folder: "src/content/blog/en"
+    format: "frontmatter"
+    extension: "md"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}}  ·  {{pubDate | date('YYYY-MM-DD')}}"
+    sortable_fields: ["pubDate", "title", "category"]
+    view_filters:
+      - { label: "Drafts",    field: "draft", pattern: true }
+      - { label: "Published", field: "draft", pattern: false }
+    fields:
+      - { name: "title",       label: "Title",                widget: "string" }
+      - { name: "description", label: "Short description (shown on list + used as meta description, ~160 chars)", widget: "text" }
+      - { name: "lang",        label: "Language",             widget: "hidden", default: "en" }
+      - { name: "pubDate",     label: "Publish date",         widget: "datetime", picker_utc: false, format: "YYYY-MM-DD" }
+      - { name: "updatedDate", label: "Updated date",         widget: "datetime", required: false, picker_utc: false, format: "YYYY-MM-DD" }
+      - { name: "category",    label: "Category",             widget: "select",
+          options: ["lean","ci","kaizen","oee","5s","rca","smed","pokayoke","pdca"] }
+      - { name: "tags",        label: "Tags",                 widget: "list", required: false, default: [] }
+      - { name: "cover",       label: "Cover image",          widget: "image",  required: false }
+      - { name: "coverAlt",    label: "Cover alt text (accessibility)", widget: "string", required: false }
+      - { name: "relatedTemplates", label: "Related templates (product slugs, shown at post end)",
+          widget: "list", required: false, default: [] }
+      - { name: "draft",       label: "Draft (hide from public site)", widget: "boolean", default: true }
+      - { name: "body",        label: "Post body (Markdown)", widget: "markdown" }
+
   # --- Products: the 6 (and future) Gumroad listings ---
   - name: "products"
     label: "Products (Gumroad)"
