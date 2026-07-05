@@ -24,7 +24,10 @@ const seoDesc = t(lang, 'about.intro').slice(0, 160);
         <div class="portrait">
           <div class="frame">
             <div class="ph">
-              <img src="/images/portrait.jpg" alt="" loading="lazy" />
+              <picture>
+                <source srcset="/images/portrait.webp" type="image/webp" />
+                <img src="/images/portrait-fallback.jpg" alt="" width="800" height="800" loading="lazy" decoding="async" />
+              </picture>
             </div>
           </div>
         </div>
