@@ -4,7 +4,7 @@ import { t } from '../i18n/ui.js';
 
 export interface Props {
   lang: 'az' | 'en' | 'tr';
-  active?: 'home' | 'templates' | 'consulting' | 'about' | 'contact';
+  active?: 'home' | 'templates' | 'consulting' | 'blog' | 'about' | 'contact';
 }
 const { lang, active } = Astro.props;
 
@@ -14,6 +14,8 @@ const path = (key: string, l = lang) => {
   if (key === 'home')       return `${base}/`;
   if (key === 'templates')  return `${base}/templates/`;
   if (key === 'consulting') return `${base}/consulting/`;
+  // Blog only exists in English for now — always route there.
+  if (key === 'blog')       return `/en/blog/`;
   if (key === 'about')      return `${base}/about/`;
   if (key === 'contact')    return `${base}/contact/`;
   return base + '/';
@@ -38,6 +40,7 @@ const currentKey = active ?? 'home';
       <a href={path('home')}       class={active === 'home' ? 'active' : ''}>{t(lang, 'nav.home')}</a>
       <a href={path('templates')}  class={active === 'templates' ? 'active' : ''}>{t(lang, 'nav.templates')}</a>
       <a href={path('consulting')} class={active === 'consulting' ? 'active' : ''}>{t(lang, 'nav.consulting')}</a>
+      <a href={path('blog')}       class={active === 'blog' ? 'active' : ''}>{t(lang, 'nav.blog')}</a>
       <a href={path('about')}      class={active === 'about' ? 'active' : ''}>{t(lang, 'nav.about')}</a>
       <a href={path('contact')}    class={active === 'contact' ? 'active' : ''}>{t(lang, 'nav.contact')}</a>
     </nav>
