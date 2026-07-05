@@ -1,0 +1,261 @@
+---
+// Individual blog post page — /en/blog/[slug]/
+// One page per Markdown file under src/content/blog/en/
+import Base from '../../../layouts/Base.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { categoryLabels } from '../../../i18n/ui.js';
+import { products } from '../../../content/products.js';
+
+// Astro static-site-generation: tell it which URLs to build.
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) =>
+    data.lang === 'en' && data.draft !== true
+  );
+  return posts.map(post => ({
+    // Strip the "en/" prefix from the slug — file lives at content/blog/en/foo.md
+    // but the URL should just be /en/blog/foo/.
+    params: { slug: post.slug.split('/').pop() },
+    props: { post },
+  }));
+}
+
+interface Props { post: CollectionEntry<'blog'>; }
+const { post } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await post.render();
+
+const lang = 'en' as const;
+const fmtDate = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+// Rough reading time — 220 words/min, from the raw body.
+const wordCount = post.body.split(/\s+/).filter(Boolean).length;
+const readMin = Math.max(1, Math.round(wordCount / 220));
+
+// Look up related templates by slug.
+const related = post.data.relatedTemplates
+  .map(id => products.find(p => p.id === id))
+  .filter(Boolean) as typeof products;
+---
+
+<Base
+  lang={lang}
+  title={`${post.data.title} · azimbayov.com`}
+  description={post.data.description}
+>
+  <article class="post">
+    <div class="wrap post-wrap">
+      <div class="post-meta-top">
+        <a href="/en/blog/" class="post-back">← Back to blog</a>
+      </div>
+
+      <div class="post-meta">
+        <span class="post-cat">{categoryLabels[lang][post.data.category]}</span>
+        <span class="post-date">{fmtDate(post.data.pubDate)}</span>
+        <span class="post-read">{readMin} min read</span>
+      </div>
+
+      <h1>{post.data.title}</h1>
+      <p class="post-lead">{post.data.description}</p>
+
+      {post.data.cover && (
+        <div class="post-cover">
+          <img src={post.data.cover} alt={post.data.coverAlt || ''} />
+        </div>
+      )}
+
+      <div class="post-body">
+        <Content />
+      </div>
+
+      {related.length > 0 && (
+        <aside class="post-related">
+          <h3>Templates mentioned</h3>
+          <div class="post-related-grid">
+            {related.map(p => (
+              <a href={p.gumroad} target="_blank" rel="noopener" class="post-related-card">
+                <div class="post-related-type">{p.type}</div>
+                <div class="post-related-title">{p.translations.en.h}</div>
+                <span class="post-related-cta">View on Gumroad →</span>
+              </a>
+            ))}
+          </div>
+        </aside>
+      )}
+
+      <div class="post-share">
+        <span class="post-share-label">Share:</span>
+        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=https://azimbayov.com/en/blog/${post.slug.split('/').pop()}/`} target="_blank" rel="noopener">LinkedIn</a>
+        <a href={`https://pinterest.com/pin/create/button/?url=https://azimbayov.com/en/blog/${post.slug.split('/').pop()}/&description=${encodeURIComponent(post.data.title)}`} target="_blank" rel="noopener">Pinterest</a>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post { padding: 60px 0 80px; }
+  .post-wrap { max-width: 720px; }
+
+  .post-meta-top { margin-bottom: 32px; }
+  .post-back {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--teal);
+    text-decoration: none;
+    letter-spacing: .04em;
+  }
+  .post-back:hover { text-decoration: underline; }
+
+  .post-meta {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .post-cat {
+    background: #EAF6F6;
+    color: var(--blue);
+    padding: 4px 9px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .post-date, .post-read { color: var(--muted); }
+
+  .post h1 {
+    font-size: 38px;
+    line-height: 1.15;
+    color: var(--blue);
+    margin: 0 0 18px;
+    font-weight: 800;
+    letter-spacing: -.01em;
+  }
+  @media (max-width: 640px) { .post h1 { font-size: 30px; } }
+
+  .post-lead {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0 0 32px;
+  }
+
+  .post-cover {
+    margin: 0 0 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: #F5F7FA;
+  }
+  .post-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Article body */
+  .post-body { font-size: 17.5px; line-height: 1.75; color: #2A3542; }
+  .post-body :global(h2) {
+    font-size: 26px;
+    color: var(--blue);
+    margin: 44px 0 16px;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+  .post-body :global(h3) {
+    font-size: 20px;
+    color: var(--blue);
+    margin: 32px 0 12px;
+    font-weight: 700;
+  }
+  .post-body :global(p) { margin: 0 0 20px; }
+  .post-body :global(ul), .post-body :global(ol) { margin: 0 0 20px; padding-left: 24px; }
+  .post-body :global(li) { margin: 0 0 8px; }
+  .post-body :global(strong) { color: var(--blue); font-weight: 700; }
+  .post-body :global(a) { color: var(--teal); text-decoration: underline; }
+  .post-body :global(blockquote) {
+    border-left: 3px solid var(--teal);
+    padding: 4px 0 4px 20px;
+    margin: 24px 0;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .post-body :global(code) {
+    background: #F5F7FA;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+  }
+  .post-body :global(pre) {
+    background: #1F4E79;
+    color: #fff;
+    padding: 18px 22px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 0 0 24px;
+  }
+  .post-body :global(pre code) { background: none; color: inherit; padding: 0; }
+  .post-body :global(img) { max-width: 100%; height: auto; border-radius: 8px; margin: 24px 0; }
+
+  /* Related templates block */
+  .post-related {
+    margin-top: 60px;
+    padding: 28px 30px;
+    background: #F5F7FA;
+    border-radius: 10px;
+    border-left: 3px solid var(--teal);
+  }
+  .post-related h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    margin: 0 0 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+  .post-related-grid { display: grid; gap: 12px; }
+  .post-related-card {
+    display: block;
+    background: #fff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--grey-line);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s ease;
+  }
+  .post-related-card:hover { border-color: var(--teal); }
+  .post-related-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .post-related-title { font-weight: 700; color: var(--blue); margin-bottom: 6px; font-size: 15px; }
+  .post-related-cta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  /* Share row */
+  .post-share {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--grey-line);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 14px;
+  }
+  .post-share-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .post-share a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  .post-share a:hover { text-decoration: underline; }
+</style>
