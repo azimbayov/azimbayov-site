@@ -1,14 +1,15 @@
-# Decap CMS configuration
-# This panel lives at azimbayov.com/admin — the owner logs in with GitHub
-# and edits content without touching code.
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
 #
-# Backend: GitHub via Netlify Identity + Git Gateway (set up on first visit).
+# Sveltia CMS configuration (successor to Decap CMS).
+# Panel lives at azimbayov.com/admin — owner logs in with a GitHub token
+# ("Sign In with Token" button) and edits content without touching code.
 
 backend:
-  name: git-gateway
+  name: github
+  repo: azimbayov/azimbayov-site
   branch: main
 
-# Where uploaded media goes (product cover images, etc.).
+# Where uploaded media goes (product cover images, blog images, etc.).
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
