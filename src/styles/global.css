@@ -3,6 +3,10 @@
    Brand tokens + base type + shared component styles
    ============================================================ */
 
+/* Self-hosted fonts (served from Netlify CDN, no external Google Fonts) */
+@import '@fontsource-variable/inter';
+@import '@fontsource/jetbrains-mono/500.css';
+
 :root {
   --blue:      #1F4E79;
   --blue-deep: #163a5c;
